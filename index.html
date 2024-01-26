@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Logic Gate Website</title>
+    <style>
+        /* CSS code for styling the web page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .input label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .input select {
+            width: 100px;
+        }
+
+        .output {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .output table {
+            border-collapse: collapse;
+        }
+
+        .output th,
+        .output td {
+            border: 1px solid #333333;
+            padding: 10px;
+        }
+
+        .output th {
+            background-color: #cccccc;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Logic Gate Website</h1>
+    <div class="container">
+        <div class="input">
+            <label for="operator">Select an operator:</label>
+            <select id="operator" onchange="updateOutput()">
+                <option value="AND">AND</option>
+                <option value="OR">OR</option>
+                <option value="NOT">NOT</option>
+                <option value="XOR">XOR</option>
+                <option value="NAND">NAND</option>
+                <option value="NOR">NOR</option>
+                <option value="XNOR">XNOR</option>
+            </select>
+        </div>
+        <div class="output">
+            <table id="table">
+                <!-- The table will be filled by JavaScript -->
+            </table>
+        </div>
+    </div>
+    <script>
+        // JavaScript code for creating the logic gate and the truth table
+        // Get the elements from the HTML document
+        var operator = document.getElementById("operator");
+        var table = document.getElementById("table");
+
+        // Define a function to update the output based on the user input
+        function updateOutput() {
+            // Clear the previous table content
+            table.innerHTML = "";
+            // Get the selected operator value
+            var op = operator.value;
+            // Create an array to store the input and output values
+            var values = [];
+            // Check the operator and fill the array accordingly
+            if (op == "NOT") {
+                // For NOT operator, there is only one input and one output
+                values = [
+                    [0, 1],
+                    [1, 0]
+                ];
+            } else if (op == "AND") {
+                values = [
+                    [0, 0, 0],
+                    [0, 1, 0],
+                    [1, 0, 0],
+                    [1, 1, 1]
+                ];
+            } else if (op == "OR") {
+                values = [
+                    [0, 0, 0],
+                    [0, 1, 1],
+                    [1, 0, 1],
+                    [1, 1, 1]
+                ];
+            } else if (op == "XOR") {
+                values = [
+                    [0, 0, 0],
+                    [0, 1, 1],
+                    [1, 0, 1],
+                    [1, 1, 0]
+                ];
+            } else if (op == "NAND") {
+                values = [
+                    [0, 0, 1],
+                    [0, 1, 1],
+                    [1, 0, 1],
+                    [1, 1, 0],
+                ];
+            } else if (op == "NOR") {
+                values = [
+                    [0, 0, 1],
+                    [0, 1, 0],
+                    [1, 0, 0],
+                    [1, 1, 0],
+                ];
+            } else if (op == "XNOR") {
+                values = [
+                    [0, 0, 1],
+                    [0, 1, 0],
+                    [1, 0, 0],
+                    [1, 1, 1],
+                ];
+            }
+            // Create a table row element for the header
+            var header = document.createElement("tr");
+            // Create a table header element for each input and output
+            for (var i = 0; i < values[0].length; i++) {
+                var th = document.createElement("th");
+                // Set the text content of the table header
+                if (i == values[0].length - 1) {
+                    // For the last column, use the operator symbol
+                    th.textContent = op;
+                } else {
+                    // For the other columns, use the input variable name
+                    th.textContent = "A" + (i + 1);
+                }
+                // Append the table header to the table row
+                header.appendChild(th);
+            }
+            // Append the table row to the table
+            table.appendChild(header);
+            // Create a table row element for each value combination
+            for (var i = 0; i < values.length; i++) {
+                var row = document.createElement("tr");
+                // Create a table data element for each input and output value
+                for (var j = 0; j < values[i].length; j++) {
+                    var td = document.createElement("td");
+                    // Set the text content of the table data
+                    td.textContent = values[i][j];
+                    // Append the table data to the table row
+                    row.appendChild(td);
+                }
+                // Append the table row to the table
+                table.appendChild(row);
+            }
+        }
+
+        // Call the function to update the output initially
+        updateOutput();
+    </script>
+</body>
+
+</html>
